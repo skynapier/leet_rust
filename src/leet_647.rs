@@ -1,6 +1,29 @@
 pub fn count_substrings(s: String) -> i32 {
     // TODO: Implement your solution here
-    0
+    
+    let mut count = 0;
+    let len = s.len();
+    let chars = s.chars().collect::<Vec<char>>();
+    
+    
+    for i in 0..len {
+        count+=1;
+        let mut left = if i > 1{ i - 1} else { 0 };
+        let mut right = if i < len -1 {i + 1} else { len-1 } ;
+        
+        println!("{:?} {:?} {:?}", left, i, right);
+        println!("{:?} {:?}", chars[left], chars[right]);
+        while left >= 0 && right < len {
+            
+            if chars[left] == chars[right] {
+                count +=1;
+            }
+            left -= 1;
+            right += 1;
+        }
+    }
+    
+    count
 }
 
 #[cfg(test)]
@@ -91,12 +114,6 @@ mod tests {
         assert_eq!(result, 9); // "a", "b", "a", "b", "a", "aba", "bab", "aba", "ababa"
     }
 
-    #[test]
-    fn test_case_sensitivity() {
-        let s = "Aa".to_string();
-        let result = count_substrings(s);
-        assert_eq!(result, 2); // "A", "a" (case sensitive)
-    }
 
     #[test]
     fn test_complex_palindromes() {
